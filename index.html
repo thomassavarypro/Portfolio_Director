@@ -2,22 +2,20 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Réalisateur</title>
-    <script src="https://player.vimeo.com/api/player.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&display=swap" rel="stylesheet">
     <style>
         body { margin: 0; background: #000; color: #fff; font-family: sans-serif; overflow-x: hidden; }
         header { text-align: center; padding: 100px 20px; }
-        .glitch { font-family: 'Syne', sans-serif; font-size: 5em; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
-        .glitch:hover { color: #0ff; text-shadow: -2px 0 red, 2px 0 blue; }
+        .glitch { font-size: 5em; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        .glitch:hover { animation: glitch 0.3s infinite; }
+        @keyframes glitch { 0% { color: #fff; text-shadow: 2px 0 red; } 50% { color: #fff; text-shadow: -2px 0 cyan; } 100% { color: #fff; text-shadow: 2px 0 red; } }
         
-        .mosaic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); gap: 15px; padding: 15px; max-width: 2000px; margin: 0 auto; }
-        .item { overflow: hidden; height: 450px; cursor: pointer; }
+        .mosaic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 15px; padding: 15px; max-width: 2000px; margin: 0 auto; }
+        .item { overflow: hidden; height: 400px; cursor: pointer; }
         .item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .item:hover img { transform: scale(1.05); }
         
-        .video-item { grid-column: span 2; grid-row: span 2; background: #111; height: 915px; }
+        .video-item { grid-column: span 2; grid-row: span 2; background: #111; height: 815px; }
         .video-item iframe { width: 100%; height: 100%; border: none; }
 
         #lightbox { display: none; position: fixed; top:0; left:0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 1000; align-items: center; justify-content: center; }
@@ -34,30 +32,11 @@
     </header>
 
     <div class="mosaic-grid" id="grid">
-        <div class="item"><img src="gallery_8.jpg" onclick="openLB('gallery_8.jpg')"></div>
-        <div class="item"><img src="gallery_10.jpg" onclick="openLB('gallery_10.jpg')"></div>
-        <div class="item"><img src="gallery_15.jpg" onclick="openLB('gallery_15.jpg')"></div>
-        <div class="item"><img src="gallery_16.jpg" onclick="openLB('gallery_16.jpg')"></div>
-        <div class="item"><img src="gallery_17.jpg" onclick="openLB('gallery_17.jpg')"></div>
-        <div class="item"><img src="gallery_19.jpg" onclick="openLB('gallery_19.jpg')"></div>
         <div class="video-item"><iframe src="https://player.vimeo.com/video/1208359041"></iframe></div>
-        <div class="item"><img src="gallery_21.jpg" onclick="openLB('gallery_21.jpg')"></div>
-        <div class="item"><img src="gallery_23.jpg" onclick="openLB('gallery_23.jpg')"></div>
-        <div class="item"><img src="gallery_25.jpg" onclick="openLB('gallery_25.jpg')"></div>
-        <div class="item"><img src="gallery_27.jpg" onclick="openLB('gallery_27.jpg')"></div>
-        <div class="item"><img src="gallery_37.jpg" onclick="openLB('gallery_37.jpg')"></div>
-        <div class="item"><img src="gallery_41.jpg" onclick="openLB('gallery_41.jpg')"></div>
-        
-        <div class="item"><img src="STILLS_00000.jpg" onclick="openLB('STILLS_00000.jpg')"></div>
-        <div class="item"><img src="STILLS_00002.jpg" onclick="openLB('STILLS_00002.jpg')"></div>
-        <div class="item"><img src="STILLS_00004.jpg" onclick="openLB('STILLS_00004.jpg')"></div>
-        <div class="item"><img src="STILLS_00005.jpg" onclick="openLB('STILLS_00005.jpg')"></div>
-        <div class="item"><img src="STILLS_00006.jpg" onclick="openLB('STILLS_00006.jpg')"></div>
-        <div class="item"><img src="STILLS_00009.jpg" onclick="openLB('STILLS_00009.jpg')"></div>
         <div class="video-item"><iframe src="https://player.vimeo.com/video/1208359948"></iframe></div>
-        <div class="item"><img src="Still 2026-02-08 165443_1.23.1_00000.jpg" onclick="openLB('Still 2026-02-08 165443_1.23.1_00000.jpg')"></div>
-        <div class="item"><img src="Still 2026-02-08 165443_1.28.1_00000 2.jpg" onclick="openLB('Still 2026-02-08 165443_1.28.1_00000 2.jpg')"></div>
-        <div class="item"><img src="Still 2026-02-08 165443_1.30.1_00000.jpg" onclick="openLB('Still 2026-02-08 165443_1.30.1_00000.jpg')"></div>
+        <div class="video-item"><iframe src="https://player.vimeo.com/video/1208359340"></iframe></div>
+        <div class="video-item"><iframe src="https://player.vimeo.com/video/1208359283"></iframe></div>
+        <div class="video-item"><iframe src="https://player.vimeo.com/video/1208359248"></iframe></div>
     </div>
 
     <div id="lightbox" onclick="this.classList.remove('active')">
@@ -67,18 +46,24 @@
     </div>
 
     <script>
-        const imgs = Array.from(document.querySelectorAll('.item img'));
+        const grid = document.getElementById('grid');
+        const files = [
+            'gallery_8.jpg', 'gallery_10.jpg', 'gallery_15.jpg', 'gallery_16.jpg', 'gallery_17.jpg', 
+            'gallery_19.jpg', 'gallery_21.jpg', 'gallery_23.jpg', 'gallery_25.jpg', 'gallery_27.jpg', 
+            'gallery_37.jpg', 'gallery_41.jpg', 'STILLS_00000.jpg', 'STILLS_00002.jpg', 'STILLS_00004.jpg', 
+            'STILLS_00005.jpg', 'STILLS_00006.jpg', 'STILLS_00009.jpg', 'Still 2026-02-08 165443_1.23.1_00000.jpg',
+            'Still 2026-02-08 165443_1.28.1_00000 2.jpg', 'Still 2026-02-08 165443_1.30.1_00000.jpg'
+        ];
+        
+        files.sort(() => Math.random() - 0.5);
+        
+        files.forEach((f, i) => {
+            grid.innerHTML += `<div class="item"><img src="${f}" onclick="openLB(${i})"></div>`;
+        });
+
         let current = 0;
-        function openLB(src) {
-            current = imgs.findIndex(img => img.src.includes(src));
-            document.getElementById('lb-img').src = imgs[current].src;
-            document.getElementById('lightbox').classList.add('active');
-        }
-        function changeImg(n, e) {
-            e.stopPropagation();
-            current = (current + n + imgs.length) % imgs.length;
-            document.getElementById('lb-img').src = imgs[current].src;
-        }
+        function openLB(idx) { current = idx; document.getElementById('lb-img').src = files[idx]; document.getElementById('lightbox').classList.add('active'); }
+        function changeImg(n, e) { e.stopPropagation(); current = (current + n + files.length) % files.length; document.getElementById('lb-img').src = files[current]; }
     </script>
 </body>
 </html>
