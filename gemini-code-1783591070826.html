@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Réalisateur</title>
+    <style>
+        /* --- STYLE CSS --- */
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #121212; 
+            color: #ffffff;
+        }
+        header {
+            text-align: center;
+            padding: 80px 20px 40px;
+            border-bottom: 1px solid #333;
+        }
+        h1 {
+            font-size: 3em;
+            margin: 0 0 10px 0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        p.subtitle {
+            color: #aaaaaa;
+            font-size: 1.2em;
+            margin: 0;
+            font-weight: 300;
+        }
+        h2.section-title {
+            text-align: center;
+            font-size: 2em;
+            margin: 60px 0 20px;
+            letter-spacing: 1px;
+            color: #ffffff;
+            font-weight: 400;
+        }
+
+        /* --- GRILLE VIDÉOS --- */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .video-item {
+            background: #000000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            transition: transform 0.3s ease;
+        }
+        .video-item:hover {
+            transform: translateY(-5px); 
+        }
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; 
+            height: 0;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .video-title {
+            padding: 15px;
+            font-size: 1.1em;
+            text-align: center;
+            color: #dddddd;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        /* --- GRILLE PHOTOS --- */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto 60px auto;
+        }
+        .photo-item {
+            width: 100%;
+            height: 250px; 
+            object-fit: cover; 
+            border-radius: 4px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            cursor: pointer;
+        }
+        .photo-item:hover {
+            transform: scale(1.02);
+            opacity: 0.9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #080808;
+            color: #666666;
+            font-size: 0.9em;
+            border-top: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Mon Portfolio</h1>
+        <p class="subtitle">Réalisateur</p>
+    </header>
+
+    <main>
+        <h2 class="section-title">Réalisations</h2>
+        <div class="video-grid">
+            <div class="video-item">
+                <div class="video-wrapper"><iframe src="https://player.vimeo.com/video/1208359041?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+                <div class="video-title">Pub Château</div>
+            </div>
+            <div class="video-item">
+                <div class="video-wrapper"><iframe src="https://player.vimeo.com/video/1208359948?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+                <div class="video-title">Pub Train</div>
+            </div>
+            <div class="video-item">
+                <div class="video-wrapper"><iframe src="https://player.vimeo.com/video/1208359283?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+                <div class="video-title">Pub 3</div>
+            </div>
+            <div class="video-item">
+                <div class="video-wrapper"><iframe src="https://player.vimeo.com/video/1208359340?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+                <div class="video-title">Pub 4</div>
+            </div>
+            <div class="video-item">
+                <div class="video-wrapper"><iframe src="https://player.vimeo.com/video/1208359248?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+                <div class="video-title">Pub 5</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Photographie & Stills</h2>
+        <div class="photo-grid">
+            <img src="gallery_8.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="gallery_10.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="gallery_15.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="gallery_16.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="gallery_17.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="gallery_19.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="gallery_21.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="gallery_23.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="gallery_25.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="gallery_27.jpg" alt="Still de réalisation" class="photo-item">
+            
+            <img src="gallery_37.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="gallery_41.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-02-08 165443_1.23.1_00000.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-02-08 165443_1.28.1_00000 2.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-02-08 165443_1.30.1_00000.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-02-08 165443_1.33.1_00000.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-02-08 165443_1.34.1_00000 2.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-02-08 165443_1.38.1_00000.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-02-08 165443_1.45.1_00000.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-02-08 165443_1.46.1_00000.jpg" alt="Still de réalisation" class="photo-item">
+
+            <img src="Still 2026-07-09 114629_1.1.1.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-07-09 114629_1.1.2.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-07-09 114629_1.1.3.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-07-09 114629_1.1.4.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-07-09 114629_1.1.5.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-07-09 114629_1.1.6.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-07-09 114629_1.1.7.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-07-09 114629_1.1.8.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-07-09 114629_1.1.9.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-07-09 114629_1.1.10.jpg" alt="Still de réalisation" class="photo-item">
+
+            <img src="Still 2026-07-09 114629_1.1.11.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-07-09 114629_1.1.12.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="Still 2026-07-09 114629_1.1.13.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="STILLS_00000.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="STILLS_00002.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="STILLS_00004.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="STILLS_00005.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="STILLS_00006.jpg" alt="Still de réalisation" class="photo-item">
+            <img src="STILLS_00009.jpg" alt="Still de réalisation" class="photo-item">
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 - Portfolio Réalisateur. Tous droits réservés.</p>
+    </footer>
+
+</body>
+</html>
