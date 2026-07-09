@@ -35,15 +35,16 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* --- GRILLE DE LA MOSAÏQUE --- */
+        /* --- GRILLE DE LA MOSAÏQUE (Agrandie) --- */
         .mosaic-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            grid-auto-rows: 250px;
+            /* La taille de base passe à 350px au lieu de 280px pour des photos plus grandes */
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-auto-rows: 350px;
             grid-auto-flow: dense;
             gap: 20px;
             padding: 20px;
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto 100px auto;
         }
 
@@ -52,68 +53,55 @@
             overflow: hidden;
             z-index: 1;
             transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer; /* Indique qu'on peut cliquer */
         }
+        
         .mosaic-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: opacity 0.3s ease;
         }
+
         .mosaic-item:hover {
-            transform: scale(1.12);
+            transform: scale(1.05);
             z-index: 10;
             box-shadow: 0 20px 40px rgba(0,0,0,0.9);
         }
 
-        /* LABEL DU NOM DE FICHIER POUR LE DÉBOGAGE */
-        .filename-label {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #00ffcc; /* Couleur bien voyante */
-            padding: 4px 8px;
-            font-size: 11px;
-            font-family: monospace;
-            border-radius: 3px;
-            pointer-events: none; /* Empêche le label de bloquer le survol de l'image */
-            z-index: 2;
+        .mosaic-item:hover img {
+            opacity: 0.8;
         }
 
+        /* Formats de la grille */
         .shape-1-1 { grid-column: span 1; grid-row: span 1; } 
         .shape-4-5 { grid-column: span 1; grid-row: span 2; } 
         .shape-16-9 { grid-column: span 2; grid-row: span 1; } 
         .shape-9-16 { grid-column: span 1; grid-row: span 2; } 
 
-        /* --- ÉLÉMENTS VIDÉOS --- */
-        .video-block {
-            grid-column: 1 / -1; 
-            grid-row: span 3; 
-            margin: 80px 0; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
+        /* --- VIDÉOS INCRUSTÉES --- */
+        .shape-video {
+            grid-column: span 2; /* Prend la largeur de 2 photos */
+            grid-row: span 2;    /* Prend la hauteur de 2 photos */
+            background: #000;
+            box-shadow: 0 0 30px rgba(255,255,255,0.05);
+            cursor: default;
+        }
+        
+        .shape-video:hover {
+            transform: none; /* Pas d'effet de zoom sur les vidéos */
         }
 
-        .video-container {
-            width: 100%;
-            max-width: 960px; 
-            box-shadow: 0 0 50px rgba(255,255,255,0.05);
-            transition: transform 0.5s ease, opacity 0.5s ease;
-            opacity: 0.4; 
-            transform: scale(0.95);
-        }
-        .video-container.is-active {
-            opacity: 1;
-            transform: scale(1);
-        }
         .video-wrapper {
-            position: relative;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            transform: translateY(-50%); /* Centre la vidéo 16/9 dans le bloc carré/rectangle */
             padding-bottom: 56.25%; 
             height: 0;
-            background: #000;
         }
+
         .video-wrapper iframe {
             position: absolute;
             top: 0;
@@ -122,20 +110,73 @@
             height: 100%;
             border: none;
         }
-        .video-title {
-            margin-top: 15px;
-            font-size: 0.9em;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #666666;
-            text-align: center;
+
+        /* --- VISIONNEUSE (LIGHTBOX) --- */
+        #lightbox {
+            display: none; /* Caché par défaut */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px); /* Floute l'arrière-plan */
         }
 
+        #lightbox.active {
+            display: flex;
+        }
+
+        #lightbox-img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain; /* Garde le format original sans couper */
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+
+        .lightbox-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 4em;
+            cursor: pointer;
+            padding: 20px;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-btn:hover {
+            opacity: 1;
+        }
+
+        #prev-btn { left: 20px; }
+        #next-btn { right: 20px; }
+
+        #close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 3em;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+        #close-btn:hover { opacity: 1; }
+
         @media (max-width: 768px) {
-            header h1 { font-size: 3em; letter-spacing: -1px; }
-            .shape-16-9 { grid-column: span 1; grid-row: span 1; }
+            header h1 { font-size: 3em; }
+            .mosaic-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); grid-auto-rows: 250px; }
+            .shape-16-9, .shape-video { grid-column: span 1; grid-row: span 1; }
             .shape-4-5, .shape-9-16 { grid-row: span 1; }
-            .video-block { grid-row: span 1; margin: 40px 0; }
+            .lightbox-btn { font-size: 2em; padding: 10px; }
         }
     </style>
 </head>
@@ -148,236 +189,190 @@
     <main>
         <div class="mosaic-grid">
             
-            <div class="mosaic-item shape-16-9">
-                <img src="gallery_8.jpg" alt="Still">
-                <div class="filename-label">gallery_8.jpg</div>
-            </div>
-            <div class="mosaic-item shape-4-5">
-                <img src="gallery_10.jpg" alt="Still">
-                <div class="filename-label">gallery_10.jpg</div>
-            </div>
-            <div class="mosaic-item shape-1-1">
-                <img src="gallery_15.jpg" alt="Still">
-                <div class="filename-label">gallery_15.jpg</div>
-            </div>
-            <div class="mosaic-item shape-9-16">
-                <img src="gallery_16.jpg" alt="Still">
-                <div class="filename-label">gallery_16.jpg</div>
-            </div>
-            <div class="mosaic-item shape-1-1">
-                <img src="gallery_19.jpg" alt="Still">
-                <div class="filename-label">gallery_19.jpg</div>
-            </div>
-            <div class="mosaic-item shape-16-9">
-                <img src="gallery_17.jpg" alt="Still">
-                <div class="filename-label">gallery_17.jpg</div>
-            </div>
+            <div class="mosaic-item shape-16-9"><img src="1.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-4-5"><img src="2.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-1-1"><img src="3.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-9-16"><img src="4.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-1-1"><img src="5.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-16-9"><img src="6.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-4-5"><img src="7.jpg" alt="Still"></div>
 
-            <div class="video-block">
-                <div class="video-container">
-                    <div class="video-wrapper"><iframe src="https://player.vimeo.com/video/1208359041?muted=1&background=0&autoplay=0" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
-                    <div class="video-title">Pub Château</div>
+            <div class="mosaic-item shape-video video-block">
+                <div class="video-wrapper">
+                    <iframe src="https://player.vimeo.com/video/1208359041?muted=1&background=0&autoplay=0" allow="autoplay; fullscreen" allowfullscreen></iframe>
                 </div>
             </div>
 
-            <div class="mosaic-item shape-4-5">
-                <img src="gallery_21.jpg" alt="Still">
-                <div class="filename-label">gallery_21.jpg</div>
-            </div>
-            <div class="mosaic-item shape-16-9">
-                <img src="gallery_23.jpg" alt="Still">
-                <div class="filename-label">gallery_23.jpg</div>
-            </div>
-            <div class="mosaic-item shape-1-1">
-                <img src="gallery_25.jpg" alt="Still">
-                <div class="filename-label">gallery_25.jpg</div>
-            </div>
-            <div class="mosaic-item shape-4-5">
-                <img src="gallery_27.jpg" alt="Still">
-                <div class="filename-label">gallery_27.jpg</div>
-            </div>
-            <div class="mosaic-item shape-16-9">
-                <img src="gallery_37.jpg" alt="Still">
-                <div class="filename-label">gallery_37.jpg</div>
-            </div>
-            <div class="mosaic-item shape-1-1">
-                <img src="gallery_41.jpg" alt="Still">
-                <div class="filename-label">gallery_41.jpg</div>
-            </div>
+            <div class="mosaic-item shape-16-9"><img src="8.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-1-1"><img src="9.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-4-5"><img src="10.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-16-9"><img src="11.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-1-1"><img src="12.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-9-16"><img src="13.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-1-1"><img src="14.jpg" alt="Still"></div>
 
-            <div class="video-block">
-                <div class="video-container">
-                    <div class="video-wrapper"><iframe src="https://player.vimeo.com/video/1208359948?muted=1&background=0&autoplay=0" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
-                    <div class="video-title">Pub Train</div>
+            <div class="mosaic-item shape-video video-block">
+                <div class="video-wrapper">
+                    <iframe src="https://player.vimeo.com/video/1208359948?muted=1&background=0&autoplay=0" allow="autoplay; fullscreen" allowfullscreen></iframe>
                 </div>
             </div>
 
-            <div class="mosaic-item shape-9-16">
-                <img src="STILLS_00000.png" alt="Still">
-                <div class="filename-label">STILLS_00000.png</div>
-            </div>
-            <div class="mosaic-item shape-16-9">
-                <img src="STILLS_00001_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00001_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-4-5">
-                <img src="STILLS_00002.png" alt="Still">
-                <div class="filename-label">STILLS_00002.png</div>
-            </div>
-            <div class="mosaic-item shape-1-1">
-                <img src="STILLS_00003_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00003_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-16-9">
-                <img src="STILLS_00004.png" alt="Still">
-                <div class="filename-label">STILLS_00004.png</div>
-            </div>
+            <div class="mosaic-item shape-16-9"><img src="15.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-4-5"><img src="16.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-1-1"><img src="17.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-16-9"><img src="18.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-4-5"><img src="19.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-1-1"><img src="20.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-16-9"><img src="21.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-9-16"><img src="22.jpg" alt="Still"></div>
 
-            <div class="video-block">
-                <div class="video-container">
-                    <div class="video-wrapper"><iframe src="https://player.vimeo.com/video/1208359283?muted=1&background=0&autoplay=0" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
-                    <div class="video-title">Pub 3</div>
+            <div class="mosaic-item shape-video video-block">
+                <div class="video-wrapper">
+                    <iframe src="https://player.vimeo.com/video/1208359283?muted=1&background=0&autoplay=0" allow="autoplay; fullscreen" allowfullscreen></iframe>
                 </div>
             </div>
 
-            <div class="mosaic-item shape-4-5">
-                <img src="STILLS_00005.png" alt="Still">
-                <div class="filename-label">STILLS_00005.png</div>
-            </div>
-            <div class="mosaic-item shape-1-1">
-                <img src="STILLS_00006.png" alt="Still">
-                <div class="filename-label">STILLS_00006.png</div>
-            </div>
-            <div class="mosaic-item shape-16-9">
-                <img src="STILLS_00007_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00007_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-9-16">
-                <img src="STILLS_00008_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00008_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-1-1">
-                <img src="STILLS_00009.png" alt="Still">
-                <div class="filename-label">STILLS_00009.png</div>
-            </div>
+            <div class="mosaic-item shape-1-1"><img src="23.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-16-9"><img src="24.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-4-5"><img src="25.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-1-1"><img src="26.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-16-9"><img src="27.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-4-5"><img src="28.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-1-1"><img src="29.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-9-16"><img src="30.jpg" alt="Still"></div>
 
-            <div class="video-block">
-                <div class="video-container">
-                    <div class="video-wrapper"><iframe src="https://player.vimeo.com/video/1208359340?muted=1&background=0&autoplay=0" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
-                    <div class="video-title">Pub 4</div>
+            <div class="mosaic-item shape-video video-block">
+                <div class="video-wrapper">
+                    <iframe src="https://player.vimeo.com/video/1208359340?muted=1&background=0&autoplay=0" allow="autoplay; fullscreen" allowfullscreen></iframe>
                 </div>
             </div>
 
-            <div class="mosaic-item shape-16-9">
-                <img src="STILLS_00010_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00010_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-4-5">
-                <img src="STILLS_00011_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00011_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-16-9">
-                <img src="STILLS_00012_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00012_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-1-1">
-                <img src="STILLS_00013_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00013_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-1-1">
-                <img src="STILLS_00014_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00014_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-4-5">
-                <img src="STILLS_00015_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00015_00000.jpg</div>
-            </div>
+            <div class="mosaic-item shape-16-9"><img src="31.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-1-1"><img src="32.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-4-5"><img src="33.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-16-9"><img src="34.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-1-1"><img src="35.jpg" alt="Still"></div>
 
-            <div class="video-block">
-                <div class="video-container">
-                    <div class="video-wrapper"><iframe src="https://player.vimeo.com/video/1208359248?muted=1&background=0&autoplay=0" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
-                    <div class="video-title">Pub 5</div>
+            <div class="mosaic-item shape-video video-block">
+                <div class="video-wrapper">
+                    <iframe src="https://player.vimeo.com/video/1208359248?muted=1&background=0&autoplay=0" allow="autoplay; fullscreen" allowfullscreen></iframe>
                 </div>
             </div>
 
-            <div class="mosaic-item shape-16-9">
-                <img src="STILLS_00016_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00016_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-1-1">
-                <img src="STILLS_00017_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00017_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-4-5">
-                <img src="STILLS_00018_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00018_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-16-9">
-                <img src="STILLS_00019_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00019_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-1-1">
-                <img src="STILLS_00020_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00020_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-9-16">
-                <img src="STILLS_00021_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00021_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-16-9">
-                <img src="STILLS_00022_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00022_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-1-1">
-                <img src="STILLS_00023_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00023_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-4-5">
-                <img src="STILLS_00024_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00024_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-1-1">
-                <img src="STILLS_00025_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00025_00000.jpg</div>
-            </div>
-            <div class="mosaic-item shape-16-9">
-                <img src="STILLS_00026_00000.jpg" alt="Still">
-                <div class="filename-label">STILLS_00026_00000.jpg</div>
-            </div>
+            <div class="mosaic-item shape-4-5"><img src="36.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-16-9"><img src="37.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-1-1"><img src="38.jpg" alt="Still"></div>
+            <div class="mosaic-item shape-16-9"><img src="39.jpg" alt="Still"></div>
 
         </div>
     </main>
 
+    <div id="lightbox">
+        <button id="close-btn">&times;</button>
+        <button id="prev-btn" class="lightbox-btn">&#10094;</button>
+        <img id="lightbox-img" src="" alt="Zoomed Still">
+        <button id="next-btn" class="lightbox-btn">&#10095;</button>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            
+            /* --- GESTION DES VIDÉOS (Play/Pause au défilement) --- */
             const videoBlocks = document.querySelectorAll('.video-block');
-            const observerOptions = {
-                root: null,
-                rootMargin: '-25% 0px -25% 0px',
-                threshold: 0.4
-            };
-
+            const observerOptions = { root: null, rootMargin: '-20% 0px -20% 0px', threshold: 0.5 };
+            
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    const container = entry.target.querySelector('.video-container');
                     const iframe = entry.target.querySelector('iframe');
                     if (!iframe) return;
-                    
                     const player = new Vimeo.Player(iframe);
-
                     if (entry.isIntersecting) {
-                        container.classList.add('is-active');
-                        player.play().catch(error => {
-                            console.log("Lecture en attente d'interaction.");
-                        });
+                        player.play().catch(() => {});
                     } else {
-                        container.classList.remove('is-active');
-                        player.pause().catch(error => {});
+                        player.pause().catch(() => {});
                     }
                 });
             }, observerOptions);
 
             videoBlocks.forEach(block => observer.observe(block));
+
+            /* --- GESTION DE LA VISIONNEUSE (Lightbox) --- */
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const closeBtn = document.getElementById('close-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            // On récupère toutes les images cliquables (pas les vidéos)
+            const images = Array.from(document.querySelectorAll('.mosaic-item:not(.shape-video) img'));
+            let currentIndex = 0;
+
+            // Fonction pour ouvrir la photo
+            function openLightbox(index) {
+                currentIndex = index;
+                lightboxImg.src = images[currentIndex].src;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Empêche le site de scroller derrière
+            }
+
+            // Fermer
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Photo précédente/suivante avec boucle infinie
+            function showPrev() {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                lightboxImg.src = images[currentIndex].src;
+            }
+            function showNext() {
+                currentIndex = (currentIndex + 1) % images.length;
+                lightboxImg.src = images[currentIndex].src;
+            }
+
+            // Ajout des clics sur chaque photo
+            images.forEach((img, index) => {
+                img.addEventListener('click', () => openLightbox(index));
+            });
+
+            // Clics sur les boutons de la visionneuse
+            closeBtn.addEventListener('click', closeLightbox);
+            prevBtn.addEventListener('click', showPrev);
+            nextBtn.addEventListener('click', showNext);
+
+            // Fermer si on clique dans le noir autour de la photo
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            // GESTION DU CLAVIER (Flèches et Echap)
+            document.addEventListener('keydown', (e) => {
+                if (!lightbox.classList.contains('active')) return;
+                if (e.key === 'ArrowLeft') showPrev();
+                if (e.key === 'ArrowRight') showNext();
+                if (e.key === 'Escape') closeLightbox();
+            });
+
+            // GESTION DU TRACKPAD (Balayage avec 2 doigts)
+            let lastSwipeTime = 0;
+            window.addEventListener('wheel', (e) => {
+                if (!lightbox.classList.contains('active')) return;
+                
+                // Le cooldown empêche de passer 15 photos d'un coup
+                const now = new Date().getTime();
+                if (now - lastSwipeTime < 400) return; 
+
+                // Si on balaye horizontalement assez fort
+                if (e.deltaX > 25) { 
+                    showNext(); 
+                    lastSwipeTime = now; 
+                } else if (e.deltaX < -25) { 
+                    showPrev(); 
+                    lastSwipeTime = now; 
+                }
+            });
+
         });
     </script>
 
