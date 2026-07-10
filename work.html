@@ -5,7 +5,7 @@
     <title>Portfolio | Work</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; background: #000; color: #fff; font-family: sans-serif; }
+        body { margin: 0; background: #000; color: #fff; font-family: sans-serif; overflow: hidden; }
         header { text-align: center; padding: 40px 20px; }
         .glitch { font-family: 'Syne', sans-serif; font-size: 5em; font-weight: 800; text-transform: uppercase; cursor: pointer; margin-bottom: 10px; }
         .glitch:hover { animation: glitch 0.3s infinite; }
@@ -14,41 +14,88 @@
         nav a { color: white; text-decoration: none; margin: 0 15px; font-size: 1.2rem; transition: 0.3s; font-family: 'Syne', sans-serif;}
         nav a:hover { color: #ff0000; }
 
-        .videos-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 80px;
-            padding: 40px 20px 100px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .videos-container iframe {
-            width: 100%;
+        /* Structure du Slider Central */
+        .slider-container {
+            position: relative;
+            max-width: 1100px;
+            width: 90%;
             aspect-ratio: 16 / 9;
+            margin: 40px auto 0 auto;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider-container iframe {
+            width: 100%;
+            height: 100%;
             border: none;
+        }
+
+        /* Flèches directionnelles */
+        .slide-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            border: none;
+            font-size: 3rem;
+            padding: 15px 25px;
+            cursor: pointer;
+            z-index: 10;
+            transition: 0.3s;
+        }
+        .slide-btn:hover {
+            color: #ff0000;
+            background: rgba(0, 0, 0, 0.9);
+        }
+        .prev-video { left: -75px; }
+        .next-video { right: -75px; }
+
+        @media (max-width: 1200px) {
+            .prev-video { left: 10px; }
+            .next-video { right: 10px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1 class="glitch" onclick="window.location.href='index.html'">PORTFOLIO</h1>
+        <h1 class="glitch" onclick="window.location.href='stills.html'">PORTFOLIO</h1>
         <nav>
-            <a href="index.html">PHOTOS</a>
+            <a href="stills.html">STILLS</a>
             <a href="work.html" style="color:gray;">WORK</a>
             <a href="contact.html">CONTACT</a>
         </nav>
     </header>
 
-    <div class="videos-container">
-        <iframe src="https://player.vimeo.com/video/1208359041"></iframe>
-        <iframe src="https://player.vimeo.com/video/1208359948"></iframe>
-        <iframe src="https://player.vimeo.com/video/1208359248"></iframe>
-        <iframe src="https://player.vimeo.com/video/1208359340"></iframe>
-        <iframe src="https://player.vimeo.com/video/1208359283"></iframe>
+    <div class="slider-container">
+        <button class="slide-btn prev-video" onclick="moveVideo(-1)">&#10094;</button>
+        
+        <iframe id="video-player" src="https://player.vimeo.com/video/1208359041" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        
+        <button class="slide-btn next-video" onclick="moveVideo(1)">&#10095;</button>
     </div>
+
+    <script>
+        // Ta liste ordonnée de vidéos Vimeo
+        const vimeoVideos = [
+            "https://player.vimeo.com/video/1208359041", // Vidéo 1
+            "https://player.vimeo.com/video/1208359948", // Vidéo 2
+            "https://player.vimeo.com/video/1208359248", // Vidéo 3 (Pub 5)
+            "https://player.vimeo.com/video/1208359340", // Vidéo 4
+            "https://player.vimeo.com/video/1208359283"  // Vidéo 5
+        ];
+
+        let currentVideoIndex = 0;
+
+        function moveVideo(direction) {
+            currentVideoIndex = (currentVideoIndex + direction + vimeoVideos.length) % vimeoVideos.length;
+            document.getElementById('video-player').src = vimeoVideos[currentVideoIndex];
+        }
+    </script>
 
 </body>
 </html>
