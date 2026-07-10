@@ -13,8 +13,12 @@
             text-align: center; 
             padding: 40px 0; 
             z-index: 999; 
-            background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+            /* Dégradé subtil pour garder les titres lisibles par-dessus les images */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%);
+            pointer-events: none; /* Laisse passer les clics à travers le header transparent */
         }
+        .glitch, nav a { pointer-events: auto; } /* Réactive les clics uniquement sur les boutons */
+        
         .glitch { font-family: 'Syne', sans-serif; font-size: 5em; font-weight: 800; text-transform: uppercase; cursor: pointer; margin: 0 0 10px 0; color: #fff; }
         .glitch:hover { animation: glitch 0.3s infinite; }
         @keyframes glitch { 0% { color: #fff; text-shadow: 2px 0 red; } 50% { color: #fff; text-shadow: -2px 0 cyan; } 100% { color: #fff; text-shadow: 2px 0 red; } }
@@ -22,24 +26,24 @@
         nav a { color: white; text-decoration: none; margin: 0 15px; font-size: 1.2rem; font-weight: 800; transition: 0.3s; font-family: 'Syne', sans-serif; }
         nav a:hover { color: #ff0000; }
 
-        /* Mosaïque Mur d'images - Zéro espace, dense, remplit l'écran */
+        /* Mosaïque Murale Totale - Commence tout en haut de la page */
         .mosaic-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             grid-auto-rows: 240px;
-            grid-auto-flow: dense; /* Force les images à combler le moindre trou vide */
-            gap: 0; /* Supprime strictement tout espace ou ligne noire entre les photos */
+            grid-auto-flow: dense; 
+            gap: 0; 
             width: 100%;
-            padding-top: 180px; /* Espace pour le menu */
+            padding-top: 0; /* Les photos montent tout en haut derrière le titre */
         }
         
         .item { 
             position: relative; 
             background-color: #000;
-            overflow: visible; /* Permet le zoom par-dessus les voisins */
+            overflow: visible; 
         }
 
-        /* Variantes pour casser la monotonie et créer des images plus grandes */
+        /* Tailles asymétriques */
         .item.large-w { grid-column: span 2; }
         .item.large-h { grid-row: span 2; }
         .item.large-both { grid-column: span 2; grid-row: span 2; }
@@ -54,10 +58,15 @@
             cursor: pointer;
             display: block;
         }
+
+        /* Sécurité anti-barres noires : force un léger zoom sur les images "Stills" qui ont du noir natif */
+        .item img[src*="STILLS"], .item img[src*="00000"] {
+            transform: scale(1.05);
+        }
         
-        /* Effet au survol : passe magnifiquement au-dessus du mur */
+        /* Effet au survol combiné avec la sécurité */
         .item:hover img { 
-            transform: scale(1.12); 
+            transform: scale(1.15) !important; 
             z-index: 10; 
             box-shadow: 0 15px 40px rgba(0,0,0,0.9);
         }
@@ -70,7 +79,7 @@
         .nav-btn:hover { color: #ff0000; }
 
         @media (max-width: 768px) {
-            .mosaic-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); grid-auto-rows: 140px; padding-top: 160px; }
+            .mosaic-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); grid-auto-rows: 140px; }
             .item.large-w, .item.large-h, .item.large-both { grid-column: span 1; grid-row: span 1; }
             .glitch { font-size: 3em; }
         }
