@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Portfolio | Contact</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;800&display=swap" rel="stylesheet">
     <style>
         body, html { 
             margin: 0; 
             padding: 0; 
             height: 100%; 
-            font-family: sans-serif;
+            font-family: 'Syne', sans-serif;
             background: #000;
-            overflow: hidden; /* Empêche de scroller */
+            overflow: hidden; 
         }
         
         header { 
@@ -19,17 +19,15 @@
             top: 0; left: 0; width: 100%;
             text-align: center; 
             padding: 40px 0; 
-            /* CORRECTION 1 : On force le menu à passer par-dessus tout le reste */
             z-index: 999; 
         }
         .glitch { font-family: 'Syne', sans-serif; font-size: 5em; font-weight: 800; text-transform: uppercase; cursor: pointer; margin: 0 0 10px 0; color: #fff;}
         .glitch:hover { animation: glitch 0.3s infinite; }
         @keyframes glitch { 0% { color: #fff; text-shadow: 2px 0 red; } 50% { color: #fff; text-shadow: -2px 0 cyan; } 100% { color: #fff; text-shadow: 2px 0 red; } }
         
-        nav a { color: white; text-decoration: none; margin: 0 15px; font-size: 1.2rem; transition: 0.3s; font-family: 'Syne', sans-serif;}
+        nav a { color: white; text-decoration: none; margin: 0 15px; font-size: 1.2rem; font-weight: 800; transition: 0.3s; }
         nav a:hover { color: #ff0000; }
 
-        /* Vidéo de fond */
         .bg-video {
             position: absolute;
             top: 0;
@@ -41,30 +39,35 @@
             filter: brightness(0.4); 
         }
 
-        /* Conteneur de l'email centré */
+        /* Conteneur infos centré */
         .contact-content {
             position: relative;
             z-index: 10;
             height: 100%;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* CORRECTION 2 : Empêche la boite invisible de bloquer les clics */
+            gap: 15px; /* Espace entre mail et tel */
             pointer-events: none;
         }
 
         .contact-content a {
             color: #fff;
-            font-size: 3rem;
+            font-size: 1.5rem; /* Taille réduite */
+            font-weight: 400; /* Plus fin, plus élégant */
+            letter-spacing: 2px; /* Aère le texte */
             text-decoration: none;
-            font-weight: bold;
             transition: 0.3s;
-            /* CORRECTION 3 : Réactive le clic uniquement sur le texte du mail */
             pointer-events: auto;
         }
         
+        .contact-content a:hover {
+            color: #ff0000;
+        }
+        
         @media (max-width: 768px) {
-            .contact-content a { font-size: 1.5rem; }
+            .contact-content a { font-size: 1.2rem; }
             .glitch { font-size: 3em; }
         }
     </style>
@@ -85,7 +88,8 @@
     </header>
 
     <div class="contact-content">
-        <a href="mailto:thomassavaryprod@gmail.com">thomassavaryprod@gmail.com</a>
+        <a href="mailto:thomassavaryprod@gmail.com">thomassavarypro@gmail.com</a>
+        <a href="tel:+33617204682">06 17 20 46 82</a>
     </div>
 
 </body>
