@@ -7,13 +7,14 @@
     <style>
         body { margin: 0; background: #000; color: #fff; font-family: sans-serif; overflow-x: hidden; }
         
-        /* Menu identique sur toutes les pages */
         header { 
             position: absolute; 
             top: 0; left: 0; width: 100%;
             text-align: center; 
             padding: 40px 0; 
             z-index: 999; 
+            /* Ajout d'un léger dégradé noir pour que le menu reste lisible sur les photos */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
         }
         .glitch { font-family: 'Syne', sans-serif; font-size: 5em; font-weight: 800; text-transform: uppercase; cursor: pointer; margin: 0 0 10px 0; color: #fff; }
         .glitch:hover { animation: glitch 0.3s infinite; }
@@ -22,40 +23,37 @@
         nav a { color: white; text-decoration: none; margin: 0 15px; font-size: 1.2rem; font-weight: 800; transition: 0.3s; font-family: 'Syne', sans-serif; }
         nav a:hover { color: #ff0000; }
 
-        /* Mosaïque avec taille doublée */
+        /* Mosaïque Murale (Aucun espace, remplit l'écran) */
         .mosaic-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(560px, 1fr)); /* Taille doublée */
-            gap: 20px; 
-            padding: 200px 20px 40px 20px; /* padding-top pour laisser la place au menu fixe */
-            max-width: 1800px; 
-            margin: 0 auto; 
+            display: flex; 
+            flex-wrap: wrap; 
+            width: 100%;
+            padding-top: 180px; /* Laisse la place au menu */
         }
         
         .item { 
+            flex-grow: 1; /* Permet aux images de s'étirer pour combler les trous */
+            flex-basis: 400px; /* Largeur de base d'une photo */
+            height: 350px; /* Hauteur fixe d'une ligne */
             position: relative; 
-            aspect-ratio: 16 / 9; 
-            background-color: #000;
-            overflow: visible; 
+            overflow: visible; /* Permet le débordement au survol */
         }
         
         .item img { 
-            position: absolute; 
-            top: 0; 
-            left: 50%;
-            transform: translateX(-50%);
+            width: 100%; 
             height: 100%; 
-            aspect-ratio: 4 / 3; 
-            object-fit: cover; 
+            object-fit: cover; /* Recadre proprement sans déformer */
             transition: transform 0.3s ease, z-index 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
             z-index: 1;
             cursor: pointer;
         }
         
+        /* Effet de survol */
         .item:hover img { 
-            transform: translateX(-50%) scale(1.1); 
+            transform: scale(1.15); 
             z-index: 10; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
         }
 
         /* Lightbox */
@@ -66,7 +64,7 @@
         .nav-btn:hover { color: #ff0000; }
 
         @media (max-width: 768px) {
-            .mosaic-grid { grid-template-columns: 1fr; padding-top: 180px; }
+            .item { height: 200px; flex-basis: 100%; }
             .glitch { font-size: 3em; }
         }
     </style>
