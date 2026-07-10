@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Portfolio | Photos</title>
+    <title>Portfolio | Stills</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&display=swap" rel="stylesheet">
     <style>
         body { margin: 0; background: #000; color: #fff; font-family: sans-serif; overflow-x: hidden; }
@@ -14,21 +14,24 @@
         nav a { color: white; text-decoration: none; margin: 0 15px; font-size: 1.2rem; transition: 0.3s; font-family: 'Syne', sans-serif;}
         nav a:hover { color: #ff0000; }
 
-        /* Grille Photos */
+        /* Belle Mosaïque Multi-colonnes (Photos ajustées et plus compactes) */
         .mosaic-grid { 
             display: grid; 
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0; 
-            width: 100%;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px; 
+            padding: 20px; 
+            max-width: 1600px; 
+            margin: 0 auto; 
         }
         
         .item { 
             position: relative; 
             aspect-ratio: 16 / 9; 
             background-color: #000;
+            overflow: visible; /* Indispensable pour permettre le débordement au survol */
         }
         
-        /* Alignement parfait en format 4/3 centré avec barres noires automatiques sur les côtés */
+        /* Alignement parfait au format 4/3 centré */
         .item img { 
             position: absolute; 
             top: 0; 
@@ -42,38 +45,33 @@
             cursor: pointer;
         }
         
-        /* Effet de survol : zoom propre et passe au-dessus */
+        /* Effet de survol : l'image s'agrandit et passe au-dessus des autres cases */
         .item:hover img { 
-            transform: translateX(-50%) scale(1.1); 
+            transform: translateX(-50%) scale(1.15); 
             z-index: 10; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.9);
         }
 
-        /* Lightbox */
+        /* Lightbox plein écran */
         #lightbox { display: none; position: fixed; top:0; left:0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 1000; align-items: center; justify-content: center; }
         #lightbox.active { display: flex; }
         #lightbox img { max-width: 85%; max-height: 85%; object-fit: contain; }
-        .nav-btn { position: absolute; top: 50%; color: white; font-size: 3em; cursor: pointer; background: none; border: none; padding: 20px; z-index: 1001; transform: translateY(-50%); }
-
-        @media (max-width: 768px) {
-            .mosaic-grid { grid-template-columns: 1fr; }
-        }
+        .nav-btn { position: absolute; top: 50%; color: white; font-size: 3em; cursor: pointer; background: none; border: none; padding: 20px; z-index: 1001; transform: translateY(-50%); transition: 0.2s; }
+        .nav-btn:hover { color: #ff0000; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1 class="glitch" onclick="window.location.href='index.html'">PORTFOLIO</h1>
+        <h1 class="glitch" onclick="window.location.href='stills.html'">PORTFOLIO</h1>
         <nav>
-            <a href="index.html" style="color:gray;">PHOTOS</a>
+            <a href="stills.html" style="color:gray;">STILLS</a>
             <a href="work.html">WORK</a>
             <a href="contact.html">CONTACT</a>
         </nav>
     </header>
 
     <div class="mosaic-grid" id="grid">
-    
-       
         <div class="item"><img src="STILLS_00019_00000.jpg" onclick="openLB('STILLS_00019_00000.jpg')"></div>
         <div class="item"><img src="3.jpg" onclick="openLB('3.jpg')"></div>
         <div class="item"><img src="STILLS_00025_00000.jpg" onclick="openLB('STILLS_00025_00000.jpg')"></div>
@@ -114,7 +112,6 @@
         <div class="item"><img src="STILLS_00011_00000.jpg" onclick="openLB('STILLS_00011_00000.jpg')"></div>
         <div class="item"><img src="gallery_41.jpg" onclick="openLB('gallery_41.jpg')"></div>
         <div class="item"><img src="STILLS_00021_00000.jpg" onclick="openLB('STILLS_00021_00000.jpg')"></div>
-
         <div class="item"><img src="2.jpg" onclick="openLB('2.jpg')"></div>
     </div>
 
