@@ -39,7 +39,7 @@
             filter: brightness(0.4); 
         }
 
-        /* Conteneur infos centré */
+        /* Conteneur infos centré et élégant */
         .contact-content {
             position: relative;
             z-index: 10;
@@ -48,15 +48,15 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 15px; /* Espace entre mail et tel */
+            gap: 15px; 
             pointer-events: none;
         }
 
         .contact-content a {
             color: #fff;
-            font-size: 1.5rem; /* Taille réduite */
-            font-weight: 400; /* Plus fin, plus élégant */
-            letter-spacing: 2px; /* Aère le texte */
+            font-size: 1.5rem; 
+            font-weight: 400; 
+            letter-spacing: 2px; 
             text-decoration: none;
             transition: 0.3s;
             pointer-events: auto;
@@ -67,7 +67,7 @@
         }
         
         @media (max-width: 768px) {
-            .contact-content a { font-size: 1.2rem; }
+            .contact-content a { font-size: 1.1rem; }
             .glitch { font-size: 3em; }
         }
     </style>
@@ -81,14 +81,14 @@
     <header>
         <h1 class="glitch" onclick="window.location.href='index.html'">PORTFOLIO</h1>
         <nav>
-            <a href="index.html">PHOTOS</a>
+            <a href="index.html">STILLS</a>
             <a href="work.html">WORK</a>
             <a href="contact.html" style="color:gray;">CONTACT</a>
         </nav>
     </header>
 
     <div class="contact-content">
-        <a href="mailto:thomassavaryprod@gmail.com">thomassavarypro@gmail.com</a>
+        <a href="mailto:thomassavaryprod@gmail.com">thomassavaryprod@gmail.com</a>
         <a href="tel:+33617204682">06 17 20 46 82</a>
     </div>
 
