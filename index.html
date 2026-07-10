@@ -22,48 +22,40 @@
             width: 100%;
         }
         
-        /* La case fait du 16/9 avec un fond noir (pour les futures barres) */
         .item { 
             position: relative; 
             aspect-ratio: 16 / 9; 
             background-color: #000;
-            overflow: hidden; /* Empêche les débordements bizarres */
+            overflow: hidden; /* Coupe ce qui dépasse du zoom */
         }
-        /* Centrage absolu forcé */
+        
         .item img { 
             position: absolute; 
             top: 0; 
             left: 50%;
-            transform: translateX(-50%); /* Centre parfaitement */
+            transform: translateX(-50%);
             height: 100%; 
             aspect-ratio: 4 / 3; 
             object-fit: cover; 
             transition: transform 0.3s ease, z-index 0.3s ease, box-shadow 0.3s ease;
             z-index: 1;
             cursor: pointer;
-        
-        /* L'image est forcée en 4/3 au centre, ce qui crée les barres noires */
-        .item img { 
-            position: absolute; 
-            top: 0; 
-            left: 0;
-            right: 0;
-            bottom: 0;
-            margin: auto; /* Centre l'image */
-            height: 100%; 
-            aspect-ratio: 4 / 3; /* Coupe les côtés des images 16/9 */
-            object-fit: cover; 
-            transition: transform 0.3s ease, z-index 0.3s ease, box-shadow 0.3s ease;
-            z-index: 1;
-            cursor: pointer;
+        }
+
+        /* Hack de zoom automatique pour supprimer les bandes noires de tes 4 captures */
+        .crop-capture img {
+            height: 122%; /* On agrandit pour pousser le noir hors de la case */
+            width: auto;
         }
         
-        /* Effet de survol corrigé avec le centrage */
+        /* Effets au survol */
         .item:hover img { 
             transform: translateX(-50%) scale(1.1); 
             z-index: 10; 
             box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-        
+        }
+        .crop-capture:hover img {
+            transform: translateX(-50%) scale(1.3); /* Ajustement du survol pour les images zoomées */
         }
 
         /* Lightbox */
@@ -89,10 +81,10 @@
     </header>
 
     <div class="mosaic-grid" id="grid">
-        <div class="item"><img src="0.png" onclick="openLB('0.jpg')"></div>
-        <div class="item"><img src="1.png" onclick="openLB('1.jpg')"></div>
-        <div class="item"><img src="2.png" onclick="openLB('2.jpg')"></div>
-        <div class="item"><img src="3.png" onclick="openLB('3.jpg')"></div>
+        <div class="item crop-capture"><img src="0.png" onclick="openLB('0.png')"></div>
+        <div class="item crop-capture"><img src="1.png" onclick="openLB('1.png')"></div>
+        <div class="item crop-capture"><img src="2.png" onclick="openLB('2.png')"></div>
+        <div class="item crop-capture"><img src="3.png" onclick="openLB('3.png')"></div>
         
         <div class="item"><img src="STILLS_00025_00000.jpg" onclick="openLB('STILLS_00025_00000.jpg')"></div>
         <div class="item"><img src="STILLS_00016_00000.jpg" onclick="openLB('STILLS_00016_00000.jpg')"></div>
